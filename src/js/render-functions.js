@@ -5,7 +5,9 @@ import { gallery } from '../main';
 
 let lightbox;
 
-export const renderGallery = images => {
+let isFirstLoad = true;
+
+export const renderGallery = (images, append = false) => {
   const markup = images
     .map(
       ({
@@ -43,7 +45,24 @@ export const renderGallery = images => {
 </li>`
     )
     .join('');
-  gallery.innerHTML = markup;
+
+  if (append) {
+    gallery.insertAdjacentHTML('beforeend', markup);
+  } else {
+    gallery.innerHTML = markup;
+  }
+
+  if (!isFirstLoad) {
+    const firstItem = document.querySelector('.gallery-item');
+    const cardHeight = firstItem.getBoundingClientRect().height;
+
+    window.scrollBy({
+      top: cardHeight * 2,
+      behavior: 'smooth',
+    });
+  } else {
+    isFirstLoad = false;
+  }
 
   if (!lightbox) {
     lightbox = new SimpleLightbox('.gallery a', {

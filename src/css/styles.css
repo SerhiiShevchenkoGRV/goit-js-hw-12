@@ -52,7 +52,7 @@ body {
   border: 1px solid #4e75ff;
 }
 
-.search-btn {
+button {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -75,13 +75,23 @@ body {
   transition: transform 0.1s ease, box-shadow 0.1s ease;
 }
 
-.search-btn:hover,
-.search-btn:focus {
+button:hover,
+button:focus {
   background: #6c8cff;
 }
 
-.search-btn:active {
+button:active {
   transform: scale(0.95);
+}
+
+.more-btn {
+  max-width: 125px;
+  max-height: 40px;
+  background-color: #4e75ff;
+}
+
+.more-btn[hidden] {
+  display: none;
 }
 
 .gallery {
@@ -99,6 +109,7 @@ body {
   flex-direction: column;
   gap: 4px;
   width: 360px;
+  height: 200px;
 
   border: 1px solid #808080;
   transition: transform 0.3s ease;
