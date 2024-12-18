@@ -53,6 +53,7 @@ const searchFunction = event => {
     });
     clearGallery();
     toggleLoader(false);
+    toggleMoreBtn(false);
     return;
   }
 
@@ -86,6 +87,7 @@ const searchFunction = event => {
         ...toastOptions,
         message: error.message || 'Unknown error',
       });
+      toggleMoreBtn(false);
     });
 };
 
@@ -118,6 +120,7 @@ const loadMoreFunction = () => {
         ...toastOptions,
         message: error.message || 'Unknown error',
       });
+      toggleMoreBtn(false);
     });
 };
 
