@@ -87,6 +87,9 @@ const searchFunction = event => {
         ...toastOptions,
         message: error.message || 'Unknown error',
       });
+    })
+    .finally(() => {
+      toggleLoader(false);
     });
 };
 
