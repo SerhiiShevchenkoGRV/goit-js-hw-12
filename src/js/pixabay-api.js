@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { moreBtn } from '../main';
 import { page } from '../main';
 import { perPage } from '../main';
 

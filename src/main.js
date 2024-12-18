@@ -11,7 +11,7 @@ export let page = 1;
 export let perPage = 15;
 
 const form = document.querySelector('.form');
-const loader = gallery.querySelector('.loader');
+const loader = document.querySelector('.loader');
 const input = form.querySelector('.search-input');
 let currentQuery = '';
 
@@ -71,6 +71,14 @@ const searchFunction = event => {
         renderGallery(respObj.hits, true);
         toggleMoreBtn(true);
         page += 1;
+        toggleLoader(false);
+
+        if (respObj.hits.length < perPage) {
+          toggleMoreBtn(false);
+        } else {
+          toggleMoreBtn(true);
+          page += 1;
+        }
       }
     })
     .catch(error => {
