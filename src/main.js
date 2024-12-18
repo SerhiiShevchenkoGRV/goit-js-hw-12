@@ -52,6 +52,7 @@ const searchFunction = event => {
       message: 'Please enter a search term!',
     });
     clearGallery();
+    toggleLoader(false);
     return;
   }
 
@@ -60,6 +61,7 @@ const searchFunction = event => {
 
   fetchImages(currentQuery, page, perPage)
     .then(respObj => {
+      toggleLoader(false);
       if (respObj.hits.length === 0) {
         clearGallery();
         iziToast.show({
@@ -67,12 +69,9 @@ const searchFunction = event => {
           message:
             'Sorry, there are no images matching your search query. Please try again!',
         });
+        toggleMoreBtn(false);
       } else {
-        renderGallery(respObj.hits, true);
-        toggleMoreBtn(true);
-        page += 1;
-        toggleLoader(false);
-
+        renderGallery(respObj.hits, false);
         if (respObj.hits.length < perPage) {
           toggleMoreBtn(false);
         } else {
@@ -82,24 +81,21 @@ const searchFunction = event => {
       }
     })
     .catch(error => {
-      clearGallery();
+      toggleLoader(false);
       iziToast.show({
         ...toastOptions,
         message: error.message || 'Unknown error',
       });
-    })
-    .finally(() => {
-      toggleLoader(false);
     });
 };
 
 const loadMoreFunction = () => {
   toggleLoader(true);
+  toggleMoreBtn(false);
 
-  const currentPage = page;
-
-  fetchImages(currentQuery, currentPage, perPage)
+  fetchImages(currentQuery, page, perPage)
     .then(respObj => {
+      toggleLoader(false);
       if (respObj.hits.length === 0) {
         iziToast.show({
           ...toastOptions,
@@ -108,17 +104,20 @@ const loadMoreFunction = () => {
         toggleMoreBtn(false);
       } else {
         renderGallery(respObj.hits, true);
-        page += 1;
+        if (respObj.hits.length < perPage) {
+          toggleMoreBtn(false);
+        } else {
+          toggleMoreBtn(true);
+          page += 1;
+        }
       }
     })
     .catch(error => {
+      toggleLoader(false);
       iziToast.show({
         ...toastOptions,
-        message: error,
+        message: error.message || 'Unknown error',
       });
-    })
-    .finally(() => {
-      toggleLoader(false);
     });
 };
 
