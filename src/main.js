@@ -1,6 +1,7 @@
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 import iconError from '../src/img/error-white.svg';
+import iconInfo from '../src/img/info-message-icon.svg';
 
 import { fetchImages } from './js/pixabay-api';
 import { renderGallery } from './js/render-functions';
@@ -15,14 +16,26 @@ const loader = document.querySelector('.loader');
 const input = form.querySelector('.search-input');
 let currentQuery = '';
 
-const toastOptions = {
+const toastErrorOptions = {
+  iconUrl: iconError,
   title: 'Error',
   titleSize: '16px',
   messageSize: '16px',
   messageColor: '#fff',
   color: '#ef4040',
   position: 'topRight',
-  iconUrl: iconError,
+  theme: 'dark',
+};
+
+const toastInfoOptions = {
+  iconUrl: iconInfo,
+  iconColor: 'white',
+  title: '',
+  titleSize: '16px',
+  messageSize: '16px',
+  messageColor: '#fff',
+  color: '#40a9ef',
+  position: 'topRight',
   theme: 'dark',
 };
 
@@ -48,7 +61,7 @@ const searchFunction = event => {
   currentQuery = input.value.trim();
   if (!currentQuery) {
     iziToast.show({
-      ...toastOptions,
+      ...toastErrorOptions,
       message: 'Please enter a search term!',
     });
     clearGallery();
@@ -66,7 +79,7 @@ const searchFunction = event => {
       if (respObj.hits.length === 0) {
         clearGallery();
         iziToast.show({
-          ...toastOptions,
+          ...toastErrorOptions,
           message:
             'Sorry, there are no images matching your search query. Please try again!',
         });
@@ -84,7 +97,7 @@ const searchFunction = event => {
     .catch(error => {
       toggleLoader(false);
       iziToast.show({
-        ...toastOptions,
+        ...toastErrorOptions,
         message: error.message || 'Unknown error',
       });
       toggleMoreBtn(false);
@@ -100,7 +113,7 @@ const loadMoreFunction = () => {
       toggleLoader(false);
       if (respObj.hits.length === 0) {
         iziToast.show({
-          ...toastOptions,
+          ...toastInfoOptions,
           message: "We're sorry, but you've reached the end of search results.",
         });
         toggleMoreBtn(false);
@@ -108,6 +121,11 @@ const loadMoreFunction = () => {
         renderGallery(respObj.hits, true);
         if (respObj.hits.length < perPage) {
           toggleMoreBtn(false);
+          iziToast.show({
+            ...toastInfoOptions,
+            message:
+              "We're sorry, but you've reached the end of search results.",
+          });
         } else {
           toggleMoreBtn(true);
           page += 1;
@@ -117,7 +135,7 @@ const loadMoreFunction = () => {
     .catch(error => {
       toggleLoader(false);
       iziToast.show({
-        ...toastOptions,
+        ...toastErrorOptions,
         message: error.message || 'Unknown error',
       });
       toggleMoreBtn(false);

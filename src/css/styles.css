@@ -158,9 +158,11 @@ button:active {
 .sl-wrapper .sl-navigation button.sl-next {
   color: #ffffff;
 }
+
 .sl-wrapper .sl-navigation button.sl-prev {
   color: #ffffff;
 }
+
 .sl-wrapper button.sl-close {
   color: #ffffff;
 }
@@ -185,6 +187,7 @@ button:active {
   height: 300px;
   color: black;
 }
+
 .loader:before,
 .loader:after {
   content: '';
@@ -198,10 +201,16 @@ button:active {
   transform: rotateX(70deg);
   animation: 1s spin linear infinite;
 }
+
 .loader:after {
   color: #4e75ff;
   transform: rotateY(70deg);
   animation-delay: 0.4s;
+}
+
+body > div.iziToast-wrapper.iziToast-wrapper-topRight .iziToast-close {
+  padding: 26px 22px 26px;
+  background-size: 12px;
 }
 
 @keyframes rotate {
